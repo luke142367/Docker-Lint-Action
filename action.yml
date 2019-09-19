@@ -1,0 +1,14 @@
+name: 'Docker Lint'
+description: 'An action for linting dockerfiles'
+author: 'luke142367'
+branding:
+  color: blue
+  icon: droplet
+inputs:
+  target:
+    required: false
+    default: 'Dockerfile'
+    description: 'Paths to dockerfiles'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
