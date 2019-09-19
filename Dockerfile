@@ -1,6 +1,6 @@
-FROM node:11
+FROM node
 
-RUN npm install -g dockerfilelint
+run npm install -g dockerfilelint
 
 COPY entrypoint.sh /entrypoint.sh
 
