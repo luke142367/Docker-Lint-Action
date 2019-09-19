@@ -12,21 +12,25 @@ const dockerLint = async () => {
   const levels = ['', 'warning', 'failure']
 
   const annotations = []
-  for (const file of files) {
+  files.forEach((file) => {
     const { issues } = file
     const path = file.file
-    for (const issue of issues) {
-      const { line, category, title } = issue
-      const annotationLevel = levels[1]
+    issues.forEach((issue) => {
+      const {
+        line, category, title, content,
+      } = issue
+      const annotationLevel = levels[2]
       annotations.push({
         path,
         start_line: parseInt(line, 10),
         end_line: parseInt(line, 10),
+        start_column: 0,
+        end_column: content.length - 1,
         annotation_level: annotationLevel,
         message: `[${category}] ${title}`,
       })
-    }
-  }
+    })
+  })
 
   return {
     conclusion: parseInt(totalIssues, 10) > 0 ? 'failure' : 'success',
