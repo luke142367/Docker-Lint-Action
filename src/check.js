@@ -35,10 +35,6 @@ async function createCheck() {
 }
 
 async function updateCheck(id, conclusion, output) {
-  output.annotations.forEach((a) => {
-    console.log(a)
-    console.log(typeof a.start_line)
-  })
   const body = {
     name: checkName,
     head_sha: GITHUB_SHA,
