@@ -20,8 +20,8 @@ const dockerLint = async () => {
       const annotationLevel = levels[1]
       annotations.push({
         path,
-        start_line: line,
-        end_line: line,
+        start_line: parseInt(line, 10),
+        end_line: parseInt(line, 10),
         annotation_level: annotationLevel,
         message: `[${category}] ${title}`,
       })
@@ -29,7 +29,7 @@ const dockerLint = async () => {
   }
 
   return {
-    conclusion: totalIssues > 0 ? 'failure' : 'success',
+    conclusion: parseInt(totalIssues, 10) > 0 ? 'failure' : 'success',
     output: {
       title: checkName,
       summary: `${totalIssues} issue(s) found`,
