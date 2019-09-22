@@ -4,4 +4,4 @@ pwd
 
 ls
 
-node src/main.js
+node .docker-lint-action/src/main.js
