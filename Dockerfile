@@ -8,4 +8,4 @@ COPY entrypoint.sh entrypoint.sh
 
 COPY src src
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "/.docker-lint-action/entrypoint.sh" ]
