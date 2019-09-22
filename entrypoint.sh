@@ -1,5 +1,9 @@
 #!/bin/bash
 
+pwd
+
+ls
+
 node src/main.js
 
 if [ $? -ne 0 ]
