@@ -1,9 +1,5 @@
 #!/bin/bash
 
-node src/main.js
+ls
 
-if [ $? -ne 0 ]
-then
-    echo 'Dockerfile Lint failed'
-    exit 1
-fi
+ls src

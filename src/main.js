@@ -5,7 +5,7 @@ const exec = require('./exec')
 const checkName = 'Docker Lint Check'
 
 const dockerLint = async () => {
-  const { stdout } = await exec(`dockerfilelint ${INPUT_TARGET} -j`)
+  const { stdout } = await exec(`dockerfilelint ../${INPUT_TARGET} -j`)
   const result = JSON.parse(stdout)
   const { files, totalIssues } = result
 
