@@ -7,6 +7,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
     - name: lint
-      uses: luke142367/Docker-Lint-Action@v0.2.6
+      uses: luke142367/Docker-Lint-Action@v0.2.7
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
