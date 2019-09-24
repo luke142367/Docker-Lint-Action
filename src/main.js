@@ -38,11 +38,9 @@ const dockerLint = async () => {
       title: checkName,
       summary: `${totalIssues} issue(s) found`,
       annotations,
-      text: `
-      ## Docker Lint
-      ### Issues
-      ${totalIssues} issue(s) found
-      `,
+      text: `## Docker Lint
+### Issues
+${totalIssues} issue(s) found`,
     },
   }
 }
