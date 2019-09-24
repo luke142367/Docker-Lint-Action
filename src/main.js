@@ -59,7 +59,6 @@ async function run() {
   const id = await createCheck()
   try {
     const { conclusion, output } = await dockerLint()
-    output.text = '#This is some text'
     console.log(output.summary)
     await updateCheck(id, conclusion, output)
     if (conclusion === 'failure') {
