@@ -19,3 +19,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET: Dockerfile
 ```
+
+## Anotations
+
+This action will also annotate your commits with the linting errors
+![example](res/example.png)
