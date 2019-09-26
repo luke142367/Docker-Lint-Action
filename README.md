@@ -20,7 +20,7 @@ jobs:
         TARGET: Dockerfile
 ```
 
-## Anotations
+## Annotations
 
 This action will also annotate your commits with the linting errors
 ![example](res/example.png)
