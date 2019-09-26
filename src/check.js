@@ -1,14 +1,14 @@
 const request = require('./request')
 
-const { GITHUB_SHA, GITHUB_EVENT_PATH, GITHUB_TOKEN } = process.env
+const {
+  GITHUB_SHA, GITHUB_EVENT_PATH, GITHUB_TOKEN, GITHUB_ACTION,
+} = process.env
 const event = require(GITHUB_EVENT_PATH)
 const { repository } = event
 const {
   owner: { login: owner },
 } = repository
 const { name: repo } = repository
-
-const checkName = 'Docker Lint Check'
 
 const headers = {
   'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ const headers = {
 
 async function createCheck() {
   const body = {
-    name: checkName,
+    name: GITHUB_ACTION,
     head_sha: GITHUB_SHA,
     status: 'in_progress',
     started_at: new Date(),
@@ -36,7 +36,7 @@ async function createCheck() {
 
 async function updateCheck(id, conclusion, output) {
   const body = {
-    name: checkName,
+    name: GITHUB_ACTION,
     head_sha: GITHUB_SHA,
     status: 'completed',
     completed_at: new Date(),
