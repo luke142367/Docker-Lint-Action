@@ -4,7 +4,7 @@ RUN npm install -g dockerfilelint
 
 WORKDIR .docker-lint-action
 
-copy entrypoint.sh entrypoint.sh
+COPY entrypoint.sh entrypoint.sh
 
 COPY src src
 
