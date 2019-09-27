@@ -20,5 +20,8 @@
     "eslint": "^6.4.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2"
+  },
+  "dependencies": {
+    "@octokit/rest": "^16.30.1"
   }
 }
