@@ -14,7 +14,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
     - name: lint
-      uses: luke142367/Docker-Lint-Action@v0.2.7
+      uses: luke142367/Docker-Lint-Action@v1.0.
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET: Dockerfile
@@ -31,4 +31,4 @@ This is a list of the arguments this action can take:
 | Name         | Required | Description                                                        |
 |--------------|----------|--------------------------------------------------------------------|
 | GITHUB_TOKEN | Yes      | This can simply be set to `${{secrets.GITHUB_TOKEN}}`              |
-| TARGET       | No       | This is a space separated list of targets to run Dockerfilelint on |
+| TARGET       | No       | This is a space separated list of targets to run Dockerfilelint on. By default this is set to 'Dockerfile' |
