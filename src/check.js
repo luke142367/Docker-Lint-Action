@@ -23,6 +23,8 @@ async function createCheck() {
     status: 'in_progress',
     started_at: new Date(),
   })
+  console.log(check)
+  console.log(check.id)
   return check.id
 }
 
