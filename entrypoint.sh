@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NODE_PATH=/.docker-lint-action/node_modules node /.docker-lint-action/src/main.js
+NODE_PATH=/.docker-lint-action/node_modules node /.docker-lint-action/build/main.js
 
 if [ $? -ne 0 ]
 then

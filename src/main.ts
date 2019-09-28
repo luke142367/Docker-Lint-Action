@@ -1,17 +1,42 @@
+import { ChecksUpdateParamsOutput, ChecksUpdateParamsOutputAnnotations } from '@octokit/rest'
+import exec from './exec'
+import { createCheck, updateCheck } from './check'
+import { Conclusion, AnnotationLevel } from '../@types/check'
+
 const { INPUT_TARGET } = process.env
-const { createCheck, updateCheck } = require('./check')
-const exec = require('./exec')
 
 const checkName = 'Docker Lint Check'
 
-const dockerLint = async () => {
+interface ParsedLintResult {
+  conclusion: Conclusion,
+  output: ChecksUpdateParamsOutput
+}
+
+interface LintResults {
+  totalIssues: string
+  files: LintResultsFile[]
+}
+
+interface LintResultsFile {
+  file: string
+  issues: LintResultFileIssue[]
+}
+
+interface LintResultFileIssue {
+  line: string,
+  category: string
+  title: string
+  content: string
+}
+
+const dockerLint = async () : Promise<ParsedLintResult> => {
   const { stdout } = await exec(`dockerfilelint ${INPUT_TARGET} -j`)
-  const result = JSON.parse(stdout)
+  const result : LintResults = JSON.parse(stdout)
   const { files, totalIssues } = result
 
-  const levels = ['', 'warning', 'failure']
+  const levels : AnnotationLevel[] = ['notice', 'warning', 'failure']
 
-  const annotations = []
+  const annotations: ChecksUpdateParamsOutputAnnotations[] = []
   files.forEach((file) => {
     const { issues } = file
     const path = file.file
@@ -42,7 +67,7 @@ const dockerLint = async () => {
   }
 }
 
-function exitWithError(err) {
+function exitWithError(err : any) {
   console.error('Error', err.stack)
   if (err.data) {
     console.error(err.data)

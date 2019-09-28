@@ -4,7 +4,8 @@
   "description": "This is a GitHub action for running `dockerfilelint` on docker files and annotating diffs with the linter output",
   "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p ."
   },
   "repository": {
     "type": "git",
@@ -17,11 +18,15 @@
   },
   "homepage": "https://github.com/luke142367/Docker-Lint-Action#readme",
   "devDependencies": {
+    "@types/node": "^12.7.8",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "^2.3.1",
     "eslint": "^6.4.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2"
   },
   "dependencies": {
-    "@octokit/rest": "^16.30.1"
+    "@octokit/rest": "^16.30.1",
+    "typescript": "^3.6.3"
   }
 }
