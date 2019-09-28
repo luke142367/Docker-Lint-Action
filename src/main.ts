@@ -1,33 +1,12 @@
-import { ChecksUpdateParamsOutput, ChecksUpdateParamsOutputAnnotations } from '@octokit/rest'
+import { ChecksUpdateParamsOutputAnnotations } from '@octokit/rest'
 import exec from './exec'
 import { createCheck, updateCheck } from './check'
 import { Conclusion, AnnotationLevel } from '../@types/check'
+import { ParsedLintResult, LintResults } from '../@types/dockerfilelint'
 
 const { INPUT_TARGET } = process.env
 
 const checkName = 'Docker Lint Check'
-
-interface ParsedLintResult {
-  conclusion: Conclusion,
-  output: ChecksUpdateParamsOutput
-}
-
-interface LintResults {
-  totalIssues: string
-  files: LintResultsFile[]
-}
-
-interface LintResultsFile {
-  file: string
-  issues: LintResultFileIssue[]
-}
-
-interface LintResultFileIssue {
-  line: string,
-  category: string
-  title: string
-  content: string
-}
 
 const dockerLint = async () : Promise<ParsedLintResult> => {
   const { stdout } = await exec(`dockerfilelint ${INPUT_TARGET} -j`)
@@ -36,16 +15,15 @@ const dockerLint = async () : Promise<ParsedLintResult> => {
 
   const levels : AnnotationLevel[] = ['notice', 'warning', 'failure']
 
-  const annotations: ChecksUpdateParamsOutputAnnotations[] = []
-  files.forEach((file) => {
+  const annotations: ChecksUpdateParamsOutputAnnotations[] = files.map((file) => {
     const { issues } = file
     const path = file.file
-    issues.forEach((issue) => {
+    return issues.map((issue) => {
       const {
         line, category, title, content,
       } = issue
       const annotationLevel = levels[2]
-      annotations.push({
+      return {
         path,
         start_line: parseInt(line, 10),
         end_line: parseInt(line, 10),
@@ -53,9 +31,9 @@ const dockerLint = async () : Promise<ParsedLintResult> => {
         end_column: content.length - 1,
         annotation_level: annotationLevel,
         message: `[${category}] ${title}`,
-      })
+      }
     })
-  })
+  }).reduce((flat, toFlatten) => flat.concat(toFlatten), [])
 
   return {
     conclusion: parseInt(totalIssues, 10) > 0 ? 'failure' : 'success',

@@ -21,14 +21,13 @@ const dockerLint = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = JSON.parse(stdout);
     const { files, totalIssues } = result;
     const levels = ['notice', 'warning', 'failure'];
-    const annotations = [];
-    files.forEach((file) => {
+    const annotations = files.map((file) => {
         const { issues } = file;
         const path = file.file;
-        issues.forEach((issue) => {
+        return issues.map((issue) => {
             const { line, category, title, content, } = issue;
             const annotationLevel = levels[2];
-            annotations.push({
+            return {
                 path,
                 start_line: parseInt(line, 10),
                 end_line: parseInt(line, 10),
@@ -36,9 +35,9 @@ const dockerLint = () => __awaiter(void 0, void 0, void 0, function* () {
                 end_column: content.length - 1,
                 annotation_level: annotationLevel,
                 message: `[${category}] ${title}`,
-            });
+            };
         });
-    });
+    }).reduce((flat, toFlat) => flat.concat(toFlat), []);
     return {
         conclusion: parseInt(totalIssues, 10) > 0 ? 'failure' : 'success',
         output: {
