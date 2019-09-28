@@ -36,7 +36,7 @@ function createCheck() {
             head_sha: GITHUB_SHA,
             name: checkName,
             status: 'in_progress',
-            started_at: new Date().toDateString(),
+            started_at: new Date().toISOString(),
         });
         return check.data.id;
     });
@@ -49,7 +49,7 @@ function updateCheck(id, conclusion, output = undefined) {
             repo,
             check_run_id: id,
             status: 'completed',
-            completed_at: new Date().toDateString(),
+            completed_at: new Date().toISOString(),
             conclusion,
         };
         if (output) {
