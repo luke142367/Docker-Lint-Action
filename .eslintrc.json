@@ -4,6 +4,7 @@
         "es6": true,
         "node": true
     },
+    "parser": "@typescript-eslint/parser",
     "extends": [
         "airbnb-base"
     ],
@@ -17,5 +18,15 @@
     "rules": {
         "semi": [2, "never"],
         "no-console": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".ts"
+                ]
+            }
+        }
     }
 }

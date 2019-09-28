@@ -8,6 +8,6 @@ COPY entrypoint.sh package.json package-lock.json ./
 
 RUN npm install
 
-COPY src src
+COPY build build
 
 ENTRYPOINT [ "/.docker-lint-action/entrypoint.sh" ]
