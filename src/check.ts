@@ -31,7 +31,7 @@ async function createCheck() {
     head_sha: GITHUB_SHA,
     name: checkName,
     status: 'in_progress',
-    started_at: new Date().toString(),
+    started_at: new Date().toLocaleString(),
   })
   return check.data.id
 }
@@ -43,7 +43,7 @@ async function updateCheck(id : number,
     repo,
     check_run_id: id,
     status: 'completed',
-    completed_at: new Date().toString(),
+    completed_at: new Date().toLocaleString(),
     conclusion,
   }
 
