@@ -37,7 +37,7 @@ const dockerLint = () => __awaiter(void 0, void 0, void 0, function* () {
                 message: `[${category}] ${title}`,
             };
         });
-    }).reduce((flat, toFlat) => flat.concat(toFlat), []);
+    }).reduce((flat, toFlatten) => flat.concat(toFlatten), []);
     return {
         conclusion: parseInt(totalIssues, 10) > 0 ? 'failure' : 'success',
         output: {

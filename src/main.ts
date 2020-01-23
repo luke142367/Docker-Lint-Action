@@ -1,7 +1,7 @@
 import { ChecksUpdateParamsOutputAnnotations } from '@octokit/rest'
 import exec from './exec'
 import { createCheck, updateCheck } from './check'
-import { Conclusion, AnnotationLevel } from '../@types/check'
+import { AnnotationLevel } from '../@types/check'
 import { ParsedLintResult, LintResults } from '../@types/dockerfilelint'
 
 const { INPUT_TARGET } = process.env
