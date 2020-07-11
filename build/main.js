@@ -16,16 +16,17 @@ const exec_1 = __importDefault(require("./exec"));
 const check_1 = require("./check");
 const { INPUT_TARGET } = process.env;
 const checkName = 'Docker Lint Check';
-const handlerLintFailure = (err, stdout) => {
+const handlerLintFailure = (err, stdout, id) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Error: failed to lint file');
     console.log(stdout);
     console.log(err);
+    yield check_1.updateCheck(id, 'failure');
     process.exit(1);
-};
-const dockerLint = () => __awaiter(void 0, void 0, void 0, function* () {
+});
+const dockerLint = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const { err, stdout } = yield exec_1.default(`dockerfilelint ${INPUT_TARGET} -j`);
     if (err) {
-        handlerLintFailure(err, stdout);
+        yield handlerLintFailure(err, stdout, id);
     }
     const result = JSON.parse(stdout);
     const { files, totalIssues } = result;
@@ -67,7 +68,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const id = yield check_1.createCheck();
         try {
-            const { conclusion, output } = yield dockerLint();
+            const { conclusion, output } = yield dockerLint(id);
             console.log(output.summary);
             yield check_1.updateCheck(id, conclusion, output);
             if (conclusion === 'failure') {

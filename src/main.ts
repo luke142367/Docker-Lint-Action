@@ -9,18 +9,19 @@ const { INPUT_TARGET } = process.env
 
 const checkName = 'Docker Lint Check'
 
-const handlerLintFailure = (err: ExecException, stdout : string) => {
+const handlerLintFailure = async (err: ExecException, stdout : string, id : number) => {
   console.log('Error: failed to lint file')
   console.log(stdout)
   console.log(err)
+  await updateCheck(id, 'failure')
   process.exit(1)
 }
 
-const dockerLint = async () : Promise<ParsedLintResult> => {
+const dockerLint = async (id : number) : Promise<ParsedLintResult> => {
   const { err, stdout } = await exec(`dockerfilelint ${INPUT_TARGET} -j`)
 
   if (err) {
-    handlerLintFailure(err, stdout)
+    await handlerLintFailure(err, stdout, id)
   }
 
   const result : LintResults = JSON.parse(stdout)
@@ -69,7 +70,7 @@ function exitWithError(err : any) {
 async function run() {
   const id = await createCheck()
   try {
-    const { conclusion, output } = await dockerLint()
+    const { conclusion, output } = await dockerLint(id)
     console.log(output.summary)
     await updateCheck(id, conclusion, output)
     if (conclusion === 'failure') {
