@@ -1,4 +1,5 @@
 import { ChecksUpdateParamsOutputAnnotations } from '@octokit/rest'
+import { ExecException } from 'child_process'
 import exec from './exec'
 import { createCheck, updateCheck } from './check'
 import { AnnotationLevel } from '../@types/check'
@@ -8,8 +9,20 @@ const { INPUT_TARGET } = process.env
 
 const checkName = 'Docker Lint Check'
 
+const handlerLintFailure = (err: ExecException, stdout : string) => {
+  console.log('Error: failed to lint file')
+  console.log(stdout)
+  console.log(err)
+  process.exit(1)
+}
+
 const dockerLint = async () : Promise<ParsedLintResult> => {
-  const { stdout } = await exec(`dockerfilelint ${INPUT_TARGET} -j`)
+  const { err, stdout } = await exec(`dockerfilelint ${INPUT_TARGET} -j`)
+
+  if (err) {
+    handlerLintFailure(err, stdout)
+  }
+
   const result : LintResults = JSON.parse(stdout)
   const { files, totalIssues } = result
 
